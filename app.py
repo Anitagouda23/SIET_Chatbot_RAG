@@ -5,7 +5,7 @@ st.title("Shridevi Institute of Engineering and Technology - ChatBot")
 st.caption("Ask anything about college information...")
 st.caption("Created by Anita")
 
-mykey = st.secrets("GROQ_API_KEY")
+mykey = st.secrets["GROQ_API_KEY"]
 
 def intiate_rag():
   return load_base("01_College_Information.pdf")
@@ -23,14 +23,16 @@ question = st.chat_input("Ask anything SIET college...")
 
 if question:
   st.session_state.chat._hist.append(
-   {"role" : "user", content = question})
+   {"role" : "user", "content ": question})
   with st.chat_message("user"):
     st.write(question)
 
    with st.chat_message("assistant"):
     with st.spinner("Asking RAG for answer....."):
-     answer = ask_rag(question , embed_model, chunks, index, api_key = mykey, num_chunks)
+     answer = ask_rag(question , embed_model, chunks, index, api_key = mykey)
      st.write(answer)
+      st.session_state.chat._hist.append(
+   {"role" : "assistant", "content ": question})
 st.button("Clear chat"):
 st.session_state.chat_hist = []
 st.return()
